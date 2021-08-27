@@ -1,0 +1,6 @@
+C:\Synergy.NETService\SynNETService\bin\Debug\SynNETService.exe
+C:\Synergy.NETService\SynNETService\bin\Debug\SynNETService.pdb
+C:\Synergy.NETService\SynNETService\obj\Debug\SynNETService.ProjectInstaller.resources
+C:\Synergy.NETService\SynNETService\obj\Debug\SynNETService.synproj.GenerateResource.Cache
+C:\Synergy.NETService\SynNETService\obj\Debug\SynNETService.exe
+C:\Synergy.NETService\SynNETService\obj\Debug\SynNETService.pdb

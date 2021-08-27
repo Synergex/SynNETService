@@ -1,0 +1,117 @@
+.ifdef PurposeStatement
+This is simple example code showing the basics of creating a Windows service using Synergy .NET
+This code is intended to be run as a service and simply writes entries into a log file every 60 seconds
+See the accompanying PDF for more complete directions
+.endc
+
+import System
+import System.Collections.Generic
+import System.ComponentModel
+import System.Data
+import System.Diagnostics
+import System.ServiceProcess
+import System.Text
+
+namespace SynNETService
+
+	public partial class SynergyService extends ServiceBase
+
+		dt				,a 20
+		MyEventLog		,@System.Diagnostics.EventLog
+    
+        public method SynergyService
+            endparams
+        proc
+			this.InitializeComponent()
+
+			MyEventLog = new System.Diagnostics.EventLog()
+
+			data event_source	,string		,"SynergyService"
+			
+			;Check to make sure there isn't another event with the SynergyService name
+			if (!System.Diagnostics.EventLog.SourceExists(event_source))
+			begin   
+				;By passing an empty string for the Log parameter the event will be logged as an Application event
+				System.Diagnostics.EventLog.CreateEventSource(event_source,string.Empty)
+			end
+			
+			MyEventLog.Source = event_source
+        endmethod
+
+		protected override method OnStart, void
+			args, [#]string 
+			endparams
+		proc
+			data len		,int
+			data trans		,a 255
+						
+			;Make sure the system's TEMP evnironment variable is set
+			getlog("TEMP",trans,len)
+			
+			if len then
+			begin
+				writetime("Service started at: ")
+				MyEventLog.WriteEntry("SynergyService started")
+			end
+			else
+			begin
+				MyEventLog.WriteEntry("System environment variable TEMP not set, service SynergyService not started.")
+				stop
+			end
+						
+			;Below code will create a timer which calls the OnTimer method every 60 seconds
+			data timer		,@System.Timers.Timer	,new System.Timers.Timer()				
+			timer.Interval = 60000 		; 60 * 1000 milliseconds = 60 seconds
+			timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer)
+			timer.Start()
+			
+		endmethod
+		
+		protected override method OnStop, void
+			endparams
+		proc
+			writetime("Service stopped at: ")
+			MyEventLog.WriteEntry("SynergyService stopped", EventLogEntryType.Information)
+		endmethod
+
+		;Below method gets called every 60 seconds by System Timer
+		;Place code for service to preform in this method		
+		public method OnTimer, void
+			sender	,@object
+			args	,@System.Timers.ElapsedEventArgs
+			endparams
+		proc
+			writetime("Entry in Synergy Service file:")	
+		endmethod
+
+		private method writetime		,void
+			a_str		,string
+			endparams
+		proc
+			data chan		,int	,0
+
+			try
+			begin
+				open(chan, A, "TEMP:SynServiceFile.txt") 
+
+				dt = %datetime
+			
+				writes(chan, a_str + " " + 
+				&	dt( 1:4)       + "/" + 
+				&	dt( 5:2)       + "/" + 
+				&	dt( 7:2)       + " " +
+				&	dt( 9:2)       + ":" +
+				&	dt(11:2)       + "." +
+				&	dt(13:2)       + " " + 
+				&	dt(15:6))
+
+				close chan
+			end
+			catch(err)
+			begin
+				MyEventLog.WriteEntry("SynergyService cannot create or write to the TEMP:SynServiceFile.txt file")
+			end
+			endtry					
+		endmethod
+    endclass
+endnamespace

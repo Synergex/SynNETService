@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{BBD0F5D1-1CC4-42FD-BA4C-A96779C64378}") = "SynNETService", "SynNETService.synproj", "{46316B0B-73AA-48F8-A154-9CAF3787896D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46316B0B-73AA-48F8-A154-9CAF3787896D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46316B0B-73AA-48F8-A154-9CAF3787896D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46316B0B-73AA-48F8-A154-9CAF3787896D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46316B0B-73AA-48F8-A154-9CAF3787896D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
